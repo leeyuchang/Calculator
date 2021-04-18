@@ -63,14 +63,14 @@ const Calc = () => {
 
   // When pressed '+/-'
   const calculateToggle = () => {
-    if (equation !== '' && !isPrevDot(equation)) {
+    if (equation !== '0' && !isPrevDot(equation)) {
       setEquation(equation.concat('*-1'));
     }
   };
 
   // When pressed '%'
   const calculatePercentage = () => {
-    if (equation !== '' && !isPrevDot(equation)) {
+    if (equation !== '0' && !isPrevDot(equation)) {
       setEquation(equation + '*0.01');
     }
   };
