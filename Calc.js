@@ -35,7 +35,10 @@ const Calc = () => {
         setEquation(character);
       } else {
         // 연산자인 경우(. / * - +)
-        return;
+        if (character === '.') {
+          setEquation(prev => prev + character);
+        }
+        // return;
         // Do nothing, just ignore
       }
     } else {

@@ -40,7 +40,7 @@ export default function MyTabs() {
           options={{title: '상품선택모드'}}
         />
       </Tab.Navigator>
-      {/* <View style={styles.container}>
+      <View style={styles.container}>
         <Picker
           itemStyle={{
             backgroundColor: 'grey',
@@ -60,7 +60,7 @@ export default function MyTabs() {
           <Picker.Item label="absolute" value="absolute" />
           <Picker.Item label="percentage" value="percentage" />
         </Picker>
-      </View> */}
+      </View>
     </NavigationContainer>
   );
 }
