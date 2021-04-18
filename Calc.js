@@ -38,8 +38,6 @@ const Calc = () => {
         if (character === '.') {
           setEquation(prev => prev + character);
         }
-        // return;
-        // Do nothing, just ignore
       }
     } else {
       // 0이 아닌겨우(값이 있는 상태)
