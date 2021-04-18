@@ -1,12 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Calc from './Calc';
 import {Picker} from '@react-native-community/picker';
+
 function HomeScreen(props) {
-  console.log(props);
   return <Calc />;
 }
 
@@ -21,7 +28,24 @@ function SettingsScreen() {
 const Tab = createMaterialTopTabNavigator();
 
 export default function MyTabs() {
-  const [country, setCountry] = useState('japan');
+  const [discountType, setDiscountType] = useState('none');
+  const [discountValue, setDiscountValue] = useState('');
+
+  const showUnit = () => {
+    switch (discountType) {
+      case 'absolute':
+        return '$';
+      case 'percentage':
+        return '%';
+      default:
+        return '';
+    }
+  };
+
+  const numberWithCommas = x => {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -40,27 +64,43 @@ export default function MyTabs() {
           options={{title: '상품선택모드'}}
         />
       </Tab.Navigator>
-      <View style={styles.container}>
-        <Picker
-          itemStyle={{
-            backgroundColor: 'grey',
-            color: 'blue',
-            fontFamily: 'Ebrima',
-            fontSize: 40,
-          }}
-          style={{
-            height: 100,
-            width: 150,
-            placeholderTextColor: '#555',
-            fontSize: 40,
-          }}
-          selectedValue={country}
-          onValueChange={(val, idx) => setCountry(val)}>
-          <Picker.Item label="none" value="none" style={{fontSize: 50}} />
-          <Picker.Item label="absolute" value="absolute" />
-          <Picker.Item label="percentage" value="percentage" />
-        </Picker>
-      </View>
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        <View style={styles.dicountSelectorContainer}>
+          <Text>Discount:</Text>
+          <Picker
+            itemStyle={{
+              backgroundColor: 'grey',
+              color: 'blue',
+              fontFamily: 'Ebrima',
+              fontSize: 50,
+            }}
+            style={{
+              height: 100,
+              width: 160,
+              placeholderTextColor: '#555',
+              fontSize: 50,
+            }}
+            selectedValue={discountType}
+            onValueChange={(val, idx) => setDiscountType(val)}>
+            <Picker.Item label="none" value="none" />
+            <Picker.Item label="absolute" value="absolute" />
+            <Picker.Item label="percentage" value="percentage" />
+          </Picker>
+        </View>
+        {discountType !== 'none' && (
+          <View style={styles.discountContainer}>
+            <TextInput
+              style={styles.discountInput}
+              value={numberWithCommas(discountValue)}
+              onChangeText={e => setDiscountValue(e.replaceAll(',', ''))}
+            />
+            <Text style={styles.discountUnit}>{showUnit()}</Text>
+          </View>
+        )}
+      </KeyboardAvoidingView>
     </NavigationContainer>
   );
 }
@@ -68,10 +108,26 @@ export default function MyTabs() {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    // paddingTop: 20,
-    // marginBottom: 200,
+    height: 100,
+    // alignItems: 'center',
+    backgroundColor: 'tomato',
+    flexDirection: 'row',
+  },
+  discountContainer: {
+    flexDirection: 'row',
+  },
+  discountInput: {
+    borderColor: '#000',
+    fontSize: 24,
+    color: '#fff',
+  },
+  discountUnit: {
+    fontSize: 24,
+    textAlignVertical: 'center',
+    color: '#fff',
+  },
+  dicountSelectorContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    height: 80,
-    // backgroundColor: 'tomato',
   },
 });

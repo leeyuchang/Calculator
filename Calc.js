@@ -1,9 +1,23 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {useEffect} from 'react';
-import {Text, View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Vibration,
+} from 'react-native';
 
 import {CalcButton} from './CalcButton';
+
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 
 const Calc = () => {
   const [exp, setExp] = useState('0.00');
@@ -28,6 +42,7 @@ const Calc = () => {
   const looseJsonParse = obj => Function('"use strict";return (' + obj + ')')();
 
   const append = character => {
+    Vibration.vibrate(5);
     if (equation === '0') {
       // 0인 경우(처음 상태)
       if (!isOperator(character)) {
@@ -83,9 +98,8 @@ const Calc = () => {
   };
 
   const backspace = () => {
+    Vibration.vibrate(10);
     setEquation(prev => {
-      console.log(prev);
-      console.log(prev?.substr(0, prev.length - 1));
       return prev.substr(0, prev.length - 1) === ''
         ? '0'
         : prev.substr(0, prev.length - 1);
