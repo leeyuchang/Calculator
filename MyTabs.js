@@ -1,11 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Text, View, TextInput} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Calc from './Calc';
-import {} from 'react/cjs/react.production.min';
-
+import {Picker} from '@react-native-community/picker';
 function HomeScreen(props) {
   console.log(props);
   return <Calc />;
@@ -22,7 +21,7 @@ function SettingsScreen() {
 const Tab = createMaterialTopTabNavigator();
 
 export default function MyTabs() {
-  const [myTextInput, setMyTextInput] = useState(10);
+  const [country, setCountry] = useState('japan');
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -41,19 +40,38 @@ export default function MyTabs() {
           options={{title: '상품선택모드'}}
         />
       </Tab.Navigator>
-      <View>
-        <Text
+      {/* <View style={styles.container}>
+        <Picker
+          itemStyle={{
+            backgroundColor: 'grey',
+            color: 'blue',
+            fontFamily: 'Ebrima',
+            fontSize: 40,
+          }}
           style={{
-            fontSize: 25,
-            marginVertical: 10,
-            height: 60,
-            padding: 10,
-            backgroundColor: '#fff',
-          }}>
-          {myTextInput}
-        </Text>
-        <TextInput value={myTextInput.toString()} />
-      </View>
+            height: 100,
+            width: 150,
+            placeholderTextColor: '#555',
+            fontSize: 40,
+          }}
+          selectedValue={country}
+          onValueChange={(val, idx) => setCountry(val)}>
+          <Picker.Item label="none" value="none" style={{fontSize: 50}} />
+          <Picker.Item label="absolute" value="absolute" />
+          <Picker.Item label="percentage" value="percentage" />
+        </Picker>
+      </View> */}
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    // paddingTop: 20,
+    // marginBottom: 200,
+    alignItems: 'center',
+    height: 80,
+    // backgroundColor: 'tomato',
+  },
+});

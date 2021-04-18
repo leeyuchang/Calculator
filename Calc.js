@@ -7,7 +7,7 @@ import {CalcButton} from './CalcButton';
 
 const Calc = () => {
   const [exp, setExp] = useState('0.00');
-  const [equation, setEquation] = useState('');
+  const [equation, setEquation] = useState('0');
 
   useEffect(() => {
     calculate();
@@ -28,7 +28,7 @@ const Calc = () => {
   const looseJsonParse = obj => Function('"use strict";return (' + obj + ')')();
 
   const append = character => {
-    if (equation === '') {
+    if (equation === '0') {
       // 0인 경우(처음 상태)
       if (!isOperator(character)) {
         // 숫자인경우
@@ -77,12 +77,18 @@ const Calc = () => {
 
   // When pressed 'C'
   const clear = () => {
-    setEquation('');
+    setEquation('0');
     setExp('0');
   };
 
   const backspace = () => {
-    setEquation(prev => prev?.substr(0, prev.length - 1) ?? 0);
+    setEquation(prev => {
+      console.log(prev);
+      console.log(prev?.substr(0, prev.length - 1));
+      return prev.substr(0, prev.length - 1) === ''
+        ? '0'
+        : prev.substr(0, prev.length - 1);
+    });
   };
 
   function numberWithCommas(x) {
